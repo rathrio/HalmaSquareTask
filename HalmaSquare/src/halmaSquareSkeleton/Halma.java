@@ -188,10 +188,7 @@ public class Halma extends GameGrid implements GGMouseListener {
 	}
 	
 	private boolean isValidStartingLocation(int i, int j) {
-		if (i == 3 && j == 3 || i > 3 && j > 1 || i > 1 && j > 3) {
-			return false;
-		}
-		return true;
+		return !(i == 3 && j == 3 || i > 3 && j > 1 || i > 1 && j > 3);
 	}
 
 	public static void main(String[] args) {
