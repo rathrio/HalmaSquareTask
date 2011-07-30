@@ -117,17 +117,17 @@ public class Halma extends GameGrid implements GGMouseListener {
 	private void initializePlayers() {
 		ArrayList<Location>[] startLocations = new ArrayList[nbPlayers];
 		
-		for (int i = 0; i < nbPlayers; i++)
+		for (int i = 0; i < nbPlayers; i++) 
 			startLocations[i] = new ArrayList<Location>();
 		
-		/* TODO: Initialize startLocations[i] and endLocations[i]
-		 * with the according locations (See screenshot).
-		 * 
-		 * Hint1: One players startLocations are the others endLocations.
-		 * Hint2: Use nested for-loops.
-		 * Hint3: You can experiment with:
-		 * startLocations[0].add(new Location(0,0));
-		 */
+		for (int i = 0; i <= 4; i++) {
+			for (int j = 0; j <= 4; j++) {
+				if (isValidStartingLocation(i,j)) {
+					startLocations[0].add(new Location(i,j));
+					startLocations[1].add(new Location(15 - i,15 - j));
+				}
+			}
+		}
 		
 		players[0] = new HalmaPlayer(this, HalmaColor.Blue,
 				startLocations[0], startLocations[1]);
@@ -135,6 +135,8 @@ public class Halma extends GameGrid implements GGMouseListener {
 				startLocations[1], startLocations[0]);
 	}
 	
+
+
 	/**
 	 * Initializes each players stones at their specific
 	 * starting locations.
@@ -183,6 +185,13 @@ public class Halma extends GameGrid implements GGMouseListener {
 		removeAllActors();
 		jumpModeOn = false;
 		setUpBoard();
+	}
+	
+	private boolean isValidStartingLocation(int i, int j) {
+		if (i == 3 && j == 3 || i > 3 && j > 1 || i > 1 && j > 3) {
+			return false;
+		}
+		return true;
 	}
 
 	public static void main(String[] args) {

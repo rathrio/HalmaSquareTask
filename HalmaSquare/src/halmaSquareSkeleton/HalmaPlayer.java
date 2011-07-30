@@ -24,13 +24,10 @@ public class HalmaPlayer {
 	 * of startLocations. Also fills these cells with lightGray.
 	 */
 	public void initializeStones() {
-		/* 
-		 * TODO: add a stone to every location contained in
-		 * startLocations. Also fill the corresponding cell with a color.
-		 * 
-		 * Hint: You can experiment with:
-		 * halmaBoard.addActor(new HalmaStone(this), new Location(0,0)); 
-		 */
+		for (Location startLocation : startLocations) {
+			halmaBoard.addActor(new HalmaStone(this), startLocation);
+			halmaBoard.getBg().fillCell(startLocation, Color.LIGHT_GRAY);
+		}
 		halmaBoard.getBg().drawGridLines(Color.black);
 	}
 
