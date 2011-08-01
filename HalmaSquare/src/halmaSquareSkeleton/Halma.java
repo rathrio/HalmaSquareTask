@@ -163,6 +163,31 @@ public class Halma extends GameGrid implements GGMouseListener {
 		 * TODO: put all locations between loc1 and loc2 into interjacentLocs.
 		 * You can assume, that loc1 and loc2 have either the same x or y coordinate.
 		 */
+		if (loc1.x == loc2.x) {
+			int y1 = loc1.y;
+			int y2 = loc2.y;
+			while (y1 < y2-1) {
+				interjacentLocs.add(new Location(loc1.x,y1+1));
+				y1++;
+			}
+			while (y1 > y2+1) {
+				interjacentLocs.add(new Location(loc1.x,y1-1));
+				y1--;
+			}
+		}
+		
+		if (loc1.y == loc2.y) {
+			int x1 = loc1.x;
+			int x2 = loc2.x;
+			while (x1 < x2-1) {
+				interjacentLocs.add(new Location(x1+1,loc1.y));
+				x1++;
+			}
+			while (x1 > x2+1) {
+				interjacentLocs.add(new Location(x1-1,loc1.y));
+				x1--;
+			}
+		}
 		
 		return interjacentLocs;
 	}
