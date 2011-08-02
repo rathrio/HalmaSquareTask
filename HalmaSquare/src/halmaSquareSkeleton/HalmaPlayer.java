@@ -43,6 +43,9 @@ public class HalmaPlayer {
 		 * Hint: Read the method description above, it may be easier to
 		 * check it that way...
 		 */
+		for (Location endLoc : endLocations) {
+			
+		}
 		return true;
 	}
 	
