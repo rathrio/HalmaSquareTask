@@ -162,6 +162,8 @@ public class Halma extends GameGrid implements GGMouseListener {
 		/*
 		 * TODO: put all locations between loc1 and loc2 into interjacentLocs.
 		 * You can assume, that loc1 and loc2 have either the same x or y coordinate.
+		 * Hint: You might want to look through the javadoc for useful helper methods
+		 * http://www.aplu.ch/classdoc/jgamegrid/index.html
 		 */
 		if (loc1.x == loc2.x) {
 			int y1 = loc1.y;
