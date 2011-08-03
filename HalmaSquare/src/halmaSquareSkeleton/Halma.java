@@ -1,6 +1,7 @@
 package halmaSquareSkeleton;
 
 import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.Location.CompassDirection;
 
 import java.util.*;
 import java.awt.*;
@@ -81,9 +82,11 @@ public class Halma extends GameGrid implements GGMouseListener {
 	 */
 	private boolean isValidMove(HalmaStone hs, Location loc) {
 		Location hsLoc = hs.getLocation();
-		if (hsLoc.x != loc.x && hsLoc.y != loc.y) //jumping diagonally is not allowed
+		if (hsLoc.x != loc.x && hsLoc.y != loc.y) { //jumping diagonally is not allowed
 			return false;
-		ArrayList<Location> allLocsBetween = getInterjacent(hsLoc, loc);
+		}
+		ArrayList<Location> interjacentLocs = new ArrayList<Location>();
+		ArrayList<Location> allLocsBetween = getInterjacent(hsLoc, loc, interjacentLocs);
 		// if there are no stones between, but the stone has already jumped
 		if (allLocsBetween.isEmpty())
 			return !jumpModeOn;
@@ -134,8 +137,6 @@ public class Halma extends GameGrid implements GGMouseListener {
 		players[1] = new HalmaPlayer(this, HalmaColor.Red,
 				startLocations[1], startLocations[0]);
 	}
-	
-
 
 	/**
 	 * Initializes each players stones at their specific
@@ -156,41 +157,16 @@ public class Halma extends GameGrid implements GGMouseListener {
 	 *  This method only works properly if loc1 and loc2 have the same
 	 *  x or y coordinate, meaning they're orthogonally situated.
 	 */
-	private ArrayList<Location> getInterjacent(Location loc1, Location loc2) {
-		ArrayList<Location> interjacentLocs = new ArrayList<Location>();
-		
-		/*
-		 * TODO: put all locations between loc1 and loc2 into interjacentLocs.
-		 * You can assume, that loc1 and loc2 have either the same x or y coordinate.
-		 * Hint: You might want to look through the javadoc for useful helper methods
-		 * http://www.aplu.ch/classdoc/jgamegrid/index.html
-		 */
-		if (loc1.x == loc2.x) {
-			int y1 = loc1.y;
-			int y2 = loc2.y;
-			while (y1 < y2-1) {
-				interjacentLocs.add(new Location(loc1.x,y1+1));
-				y1++;
-			}
-			while (y1 > y2+1) {
-				interjacentLocs.add(new Location(loc1.x,y1-1));
-				y1--;
-			}
+	private ArrayList<Location> getInterjacent(Location loc1, Location loc2, 
+			ArrayList<Location> interjacentLocs) {
+		CompassDirection directionToSecondLocation = loc1.getCompassDirectionTo(loc2);
+		if (loc1.getNeighbourLocation(directionToSecondLocation).equals(loc2)) {
+			return interjacentLocs;
+		} else {
+			Location locToAdd = loc1.getNeighbourLocation(directionToSecondLocation);
+			interjacentLocs.add(locToAdd);
+			getInterjacent(locToAdd, loc2, interjacentLocs);
 		}
-		
-		if (loc1.y == loc2.y) {
-			int x1 = loc1.x;
-			int x2 = loc2.x;
-			while (x1 < x2-1) {
-				interjacentLocs.add(new Location(x1+1,loc1.y));
-				x1++;
-			}
-			while (x1 > x2+1) {
-				interjacentLocs.add(new Location(x1-1,loc1.y));
-				x1--;
-			}
-		}
-		
 		return interjacentLocs;
 	}
 
@@ -216,6 +192,13 @@ public class Halma extends GameGrid implements GGMouseListener {
 	
 	private boolean isValidStartingLocation(int i, int j) {
 		return !(i == 3 && j == 3 || i > 3 && j > 1 || i > 1 && j > 3);
+	}
+	
+	/*
+	 * For Testing Only
+	 */
+	public HalmaPlayer[] getPlayers() {
+		return this.players;
 	}
 
 	public static void main(String[] args) {

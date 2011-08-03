@@ -37,16 +37,19 @@ public class HalmaPlayer {
 	 * @return true if the current Player wins
 	 */
 	public boolean isWinner() {
-		/* 
-		 * TODO: Check, if every stone of this player is on a
-		 * endLocation. 
-		 * Hint: Read the method description above, it may be easier to
-		 * check it that way...
-		 */
+		boolean won = true;
 		for (Location endLoc : endLocations) {
-			
+			if (halmaBoard.isEmpty(endLoc)) {
+				won = false;
+			} else {
+				HalmaStone halmaStoneAtEndLoc = (HalmaStone) halmaBoard.getOneActorAt(endLoc);
+				HalmaPlayer player = halmaStoneAtEndLoc.getOwningPlayer();
+				if (!player.getColor().equals(color)) {
+					won = false;
+				}
+			}
 		}
-		return true;
+		return won;
 	}
 	
 	public String toString() {
@@ -55,5 +58,12 @@ public class HalmaPlayer {
 	
 	public HalmaColor getColor() {
 		return color;
+	}
+	
+	/*
+	 * For Testing Only
+	 */
+	public ArrayList<Location> getEndLocations() {
+		return this.endLocations;
 	}
 }
