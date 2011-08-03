@@ -14,9 +14,10 @@ public class HalmaPlayerTest {
 	@Test
 	public void playerShouldWin() {
 		this.halmaBoard = new Halma();
-		halmaBoard.removeAllActors();
 		HalmaPlayer radi = halmaBoard.getPlayers()[0];
 		ArrayList<Location> endLocs = radi.getEndLocations();
+		assertFalse(radi.isWinner());
+		halmaBoard.removeAllActors();
 		for (Location endLoc : endLocs) {
 			halmaBoard.addActor(new HalmaStone(radi), endLoc);
 		}
